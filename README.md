@@ -1,7 +1,7 @@
 MarphiPhpStormSupportBundle
 ========================
 
-This Bundle provide command to generate config file for PhpStorm Command Line Tool Support for Symfony2
+The bundle provides support to complement the console for Symfony2 in PhpStorm.
 
 **Instalation**
 
@@ -67,12 +67,12 @@ Now you must restart PhpStorm. When you add new bundles to your project you must
 
 Run Command Line Tools:  SHIF+CTRL+X or Tools->Run Command...
 
-![Command Line Tools](http://marphi.net/img/empty_command_line_tools_phpstorm.png)
+![Command Line Tools](http://marphi.net/img/empty_command_line_tools_phpstorm-2.png)
 
 
 Start typing
 
-![Complement console of Symfony2 in PHPStorm](http://marphi.net/img/symfony2_command_line_tool_phpstorm.png)
+![Complement console of Symfony2 in PHPStorm](http://marphi.net/img/symfony2_command_line_tool_phpstorm-3.png)
 
 
 
