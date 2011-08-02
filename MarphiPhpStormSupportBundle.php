@@ -2,8 +2,8 @@
 
 namespace Marphi\PhpStormSupportBundle;
 
-use symfony\Component\Httpkernel\Bundle\Bundle;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class MarphiPhpStormSupportBundle extends bundle
+class MarphiPhpStormSupportBundle extends Bundle
 {
 }

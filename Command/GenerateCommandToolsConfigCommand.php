@@ -57,22 +57,39 @@ EOT
         $alias = $input->getOption('alias');
         $name = $input->getOption('name');
 
-        $commandsArray = array();
-        foreach ($commands as $command) {
-            $commandsArray[] = array('name' => $command->getName(), 'help' => $command->getHelp(), 'params' => $this->getCommandParams($command));
-        }
 
-
-        /** @var $templating \Symfony\Component\Templating\EngineInterface */
-        $templating = $this->getContainer()->get('templating');
-
-
-        $raw = $templating->render('MarphiPhpStormSupportBundle::config.xml.twig', array('commands' => $commandsArray, 'name' => $name, 'alias' => $alias));
-
-
-
+        $raw = $this->commandsAsXml($name, $alias, $commands);
 
         $output->writeln($raw, OutputInterface::OUTPUT_RAW);
+    }
+
+
+    private function commandsAsXml($name, $alias, $commands)
+    {
+        $dom = new \DOMDocument('1.0', 'UTF-8');
+        $dom->formatOutput = true;
+
+        $dom->appendChild($frameworkNode = $dom->createElement('framework'));
+
+        $frameworkNode->setAttribute('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance');
+        $frameworkNode->setAttribute('xsi:noNamespaceSchemaLocation', 'schemas/frameworkDescriptionVersion1.1.xsd');
+        $frameworkNode->setAttribute('name', $name);
+        $frameworkNode->setAttribute('invoke', 'app/console');
+        $frameworkNode->setAttribute('alias', $alias);
+        $frameworkNode->setAttribute('enabled', true);
+        $frameworkNode->setAttribute('version', 1);
+
+
+        /** @var $command \Symfony\Component\Console\Command\Command */
+        foreach ($commands as $command) {
+            $frameworkNode->appendChild($commandXml = $dom->createElement('command'));
+
+            $commandXml->appendChild($dom->createElement('name', $command->getName()));
+            $commandXml->appendChild($dom->createElement('help', $command->getHelp()));
+            $commandXml->appendChild($dom->createElement('params', $this->getCommandParams($command)));
+        }
+
+        return $dom->saveXml();
     }
 
 
@@ -85,12 +102,13 @@ EOT
         foreach ($definition->getArguments() as $argument) {
             /** @var $option \Symfony\Component\Console\Input\Inputargument */
 
-            $elements[] = sprintf($argument->isRequired() ? '%s' : '[%s[="%s"]]', $argument->getName(), $argument->getDefault());
+            $elements[] = sprintf($argument->isRequired() ? '%s'
+                                          : '[%s[="%s"]]', $argument->getName(), $argument->getDefault());
         }
 
         foreach ($definition->getOptions() as $option) {
             /** @var $option \Symfony\Component\Console\Input\Inputoption */
-            
+
             $shortcut = $option->getshortcut() ? sprintf('-%s|', $option->getshortcut()) : '';
             $elements[] = sprintf('[%s--%s[="%s"]]', $shortcut, $option->getname(), $option->getdefault());
         }
