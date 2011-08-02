@@ -74,7 +74,7 @@ EOT
         $frameworkNode->setAttribute('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance');
         $frameworkNode->setAttribute('xsi:noNamespaceSchemaLocation', 'schemas/frameworkDescriptionVersion1.1.xsd');
         $frameworkNode->setAttribute('name', $name);
-        $frameworkNode->setAttribute('invoke', 'app/console');
+        $frameworkNode->setAttribute('invoke', '$PhpExecutable$ $ProjectFileDir$/app/console');
         $frameworkNode->setAttribute('alias', $alias);
         $frameworkNode->setAttribute('enabled', true);
         $frameworkNode->setAttribute('version', 1);
