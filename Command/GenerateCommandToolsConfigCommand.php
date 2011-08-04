@@ -57,7 +57,6 @@ EOT
         $alias = $input->getOption('alias');
         $name = $input->getOption('name');
 
-
         $raw = $this->commandsAsXml($name, $alias, $commands);
 
         $output->writeln($raw, OutputInterface::OUTPUT_RAW);
@@ -85,10 +84,10 @@ EOT
             $frameworkNode->appendChild($commandXml = $dom->createElement('command'));
 
             $commandXml->appendChild($dom->createElement('name', $command->getName()));
-            $commandXml->appendChild($dom->createElement('help', $command->getHelp()));
+            $commandXml->appendChild($dom->createElement('help', htmlentities($command->getHelp())));
             $commandXml->appendChild($dom->createElement('params', $this->getCommandParams($command)));
         }
-
+        
         return $dom->saveXml();
     }
 
